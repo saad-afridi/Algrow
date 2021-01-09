@@ -169,6 +169,7 @@ class MergeSteps(SortSteps):
         self.rec_depth = 0
 
     def iterate(self):
+        # TODO: Complete this function
         # steps = 32 x 4 = 128
         self.step += 1
         # [0, 1, 4, 3]
