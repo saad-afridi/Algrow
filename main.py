@@ -4,27 +4,6 @@ from sort_functions import SortSteps, InsertionSteps, BubbleSteps, \
 import random
 from visual_helpers import *
 
-# REMOVE DATA later
-# from algrow import HEIGHT, WIDTH, FONT_HEIGHT, VISUALIZE_HEIGHT, \
-#     FONT_FAMILY, BACKGROUND, BARS, TEXT, DATA
-
-# Screen Dimensions
-HEIGHT, WIDTH = 600, 640
-FONT_HEIGHT = 40
-VISUALIZE_HEIGHT = HEIGHT - FONT_HEIGHT - 50
-
-# The Randomized List to be visualized and sorted through
-DATA = SelectionSteps([random.randint(50, VISUALIZE_HEIGHT) for i in range(32)])
-
-
-# Text Styling and Colors
-# FONT_FAMILY = "Consolas"
-# BACKGROUND = (105, 0, 191)
-# BARS = (165, 92, 255)
-# TEXT = (231, 177, 250)
-# # STD_FONT = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 8)
-
-
 def run_visualization() -> None:
     """
     Displays an interactive graphical display of sorting
@@ -37,9 +16,6 @@ def run_visualization() -> None:
     title_screen(screen)
 
     selection_screen(screen)
-    # render_sort(screen, DATA)
-    # #
-    # sort_event_loop(screen, DATA)
 
 
 def selection_screen(screen: pygame.Surface) -> None:
@@ -51,17 +27,15 @@ def selection_screen(screen: pygame.Surface) -> None:
     two_options(screen)
 
     # Labels
-    font = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 8)
-    write_text(screen, "Table of Content", font, TEXT, (50, 80))
-    write_text(screen, "Sorting", font, BACKGROUND, (250, 285))
-    write_text(screen, "Searching", font, BACKGROUND, (235, 475))
-
-    # Separator
-    sep_coord = (50, 140, 540, 10)
-    pygame.draw.rect(screen, TEXT, sep_coord)
-
+    draw_header(screen, "Table of Content")
+    b1 = PButton(screen, (200, 230, 300, 50))
+    b1.add_text("Sorting")
+    b2 = PButton(screen, (300, 300, 300, 50))
+    b2.add_text("Searching")
+    
     # TODO: Recognize when clicked on "Searching" and go there
     while True:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -69,8 +43,18 @@ def selection_screen(screen: pygame.Surface) -> None:
 
             if event.type == pygame.MOUSEBUTTONUP:
                 x, y = event.pos
-                if 40 < x < 600 and 225 < y < 375:
+                if b1.is_cursor_on((x, y), True):
                     sort_selection(screen)
+        
+        if b1.is_cursor_on(pygame.mouse.get_pos()):
+            b1.hover()
+        else:
+            b1.draw()
+            
+        if b2.is_cursor_on(pygame.mouse.get_pos()):
+            b2.hover()
+        else:
+            b2.draw()
 
         pygame.display.flip()
 
@@ -79,6 +63,7 @@ def sort_selection(screen: pygame.Surface) -> None:
     """ The screen that lets you pick what sorting method to
     watch"""
 
+    # The list to sort
     item = [random.randint(50, VISUALIZE_HEIGHT) for i in range(32)]
 
     clear_screen(screen)
@@ -86,10 +71,9 @@ def sort_selection(screen: pygame.Surface) -> None:
     three_options(screen)
 
     # Labels
-    font = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 8)
-    write_text(screen, "Bubble Sort", font, BACKGROUND, (230, 100))
-    write_text(screen, "Insertion Sort", font, BACKGROUND, (205, 285))
-    write_text(screen, "Selection Sort", font, BACKGROUND, (205, 475))
+    write_text(screen, "Bubble Sort", get_font(), BACKGROUND, (230, 100))
+    write_text(screen, "Insertion Sort", get_font(), BACKGROUND, (205, 285))
+    write_text(screen, "Selection Sort", get_font(), BACKGROUND, (205, 475))
 
     selected = ""
     while selected == "":
@@ -110,6 +94,7 @@ def sort_selection(screen: pygame.Surface) -> None:
                 elif 40 < x < 600 and 410 < y < 560:
                     selected = "Selection"
                     break
+
         pygame.display.flip()
 
     if selected == "Bubble":
@@ -129,15 +114,30 @@ def render_sort(screen: pygame.Surface, data: SortSteps) -> None:
     screen
     """
     clear_screen(screen)
-
-    # Draw all the elements in list
-    _render_data(screen, data)
-
+    border(screen)
+    
     # Write the text
     _render_text(screen, data)
+    
+    # Draw all the elements in list
+    _render_data(screen, data)  
 
     pygame.display.flip()
 
+
+def _render_text(screen: pygame.Surface, data: SortSteps) -> None:
+    """
+    Renders the text at the top of the screen
+    """
+    small_font = get_font(20)
+    draw_header(screen, data.get_title() + " Sort")
+
+    # Steps, Cycle
+    write_text(screen, "Step(s):" + str(data.step), small_font, TEXT,
+               (48, HEIGHT - 25))
+    write_text(screen, "Cycle(s): " + str(data.cycle), small_font, TEXT,
+               (WIDTH - 120, HEIGHT - 25))
+    
 
 def _render_data(screen: pygame.Surface, data: SortSteps) -> None:
     """
@@ -146,13 +146,13 @@ def _render_data(screen: pygame.Surface, data: SortSteps) -> None:
     ==== Precondition ====
     - len(data.items) = 32
     """
-    x = 5
-    comp = WIDTH // len(data.items)
+    x = 50
+    comp = (WIDTH - 96) // len(data.items)
 
     for i, elem in enumerate(data.items):
         rect = (x + (i * comp), HEIGHT - elem, 10, elem - 25)
         highlight = _exist_color(i, data)
-        if highlight[0]:
+        if highlight[0] and not data.complete():
             pygame.draw.rect(screen, highlight[1], rect)
         else:
             pygame.draw.rect(screen, BARS, rect)
@@ -174,26 +174,6 @@ def _exist_color(n: int, data: SortSteps):
     if index == 0:
         return True, tup[2]
     return True, tup[-1]
-
-
-def _render_text(screen: pygame.Surface, data: SortSteps) -> None:
-    """
-    Renders the text at the top of the screen
-    """
-    font = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 8)
-    small_font = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 23)
-
-    # Separator
-    sep_coord = (40, HEIGHT - VISUALIZE_HEIGHT - 20, WIDTH - 80, 5)
-    pygame.draw.rect(screen, TEXT, sep_coord)
-
-    # Title, Steps, Cycle
-    write_text(screen, data.get_title() + " Sort", font, TEXT,
-               (40, (HEIGHT - VISUALIZE_HEIGHT - 10) // 2 - 10))
-    write_text(screen, "Step(s):" + str(data.step), small_font, TEXT,
-               (10, HEIGHT - 20))
-    write_text(screen, "Cycle: " + str(data.cycle), small_font, TEXT,
-               (WIDTH - 90, HEIGHT - 20))
 
 
 def sort_event_loop(screen: pygame.Surface, data: SortSteps) -> None:
@@ -227,43 +207,21 @@ def sort_event_loop(screen: pygame.Surface, data: SortSteps) -> None:
 
         render_sort(screen, data)
 
-
 def sort_end(screen: pygame.Surface, data: SortSteps) -> None:
     """
     Once it's finished sorting
     """
-    pygame.time.wait(1000)
+    pygame.time.wait(2000)
 
     clear_screen(screen)
     border(screen)
 
     # Labels
-    font = pygame.font.SysFont(FONT_FAMILY, FONT_HEIGHT - 8)
-    write_text(screen, data.get_title() + " Sort " + "Statistics",
-               font, TEXT, (50, 80))
-    write_text(screen, "Step(s): " + str(data.step), font, TEXT, (50, 285))
-    write_text(screen, "Cycle: " + str(data.cycle), font, TEXT, (50, 475))
+    draw_header(screen, data.get_title() + " Sort" + " Statistics")
+    write_text(screen, "Step(s): " + str(data.step), get_font(), TEXT, (50, 285))
+    write_text(screen, "Cycle: " + str(data.cycle), get_font(), TEXT, (50, 475))
 
-    # Separator
-    sep_coord = (50, 140, 540, 10)
-    pygame.draw.rect(screen, TEXT, sep_coord)
-
-    clock = pg.time.Clock()
-    time_elapsed = 0
-    while True:
-        dt = clock.tick()
-        time_elapsed += dt
-
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pygame.quit()
-                exit()
-
-        if time_elapsed > 6000:
-            break
-
-        pg.display.flip()
-
+    time_loop(screen, 6000)
     selection_screen(screen)
 
 
