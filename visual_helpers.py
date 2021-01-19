@@ -17,14 +17,22 @@ VISUALIZE_HEIGHT = HEIGHT - FONT_HEIGHT - 50 # 600 - 40 - 50 = 510
 FONT_FAMILY = "inkfree"
 
 # Custom colors
-# BACKGROUND = (40, 40, 40) # Light
+BACKGROUND = (40, 40, 40) # Light
 # BARS = (128, 121, 159) # Light bars
-# TEXT = (180, 180, 180) # Dark
+TEXT = (180, 180, 180) # Dark
+
 
 # Anna orig
-BACKGROUND = (105, 0, 191)
+# BACKGROUND = (105, 0, 191)
 BARS = (165, 92, 255)
-TEXT = (231, 177, 250)
+# TEXT = (231, 177, 250)
+
+
+# Other Colors
+HIGHLIGHT1 = (125, 255, 186) # Light Green
+HIGHLIGHT2 = (52, 219, 235) # Dark Neon Blue
+LIGHT_BG = (BACKGROUND[0] + 30, BACKGROUND[1] + 30, BACKGROUND[2] + 30)
+
 
 class PButton():
     

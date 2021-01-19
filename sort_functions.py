@@ -6,9 +6,7 @@ QuickSort, InsertionSort, BubbleSort
 
 from typing import List, Tuple, Dict
 import random
-
-HIGHLIGHT1 = (125, 255, 186)
-HIGHLIGHT2 = (52, 219, 235)
+from visual_helpers import *
 
 
 class SortSteps:
@@ -16,7 +14,7 @@ class SortSteps:
     A step in a sorting algorithm that is compatible with
     the sort visualiser
 
-    ==== Public Attributes ===
+    ==== Public Attributes ====
     items: the current state of the list
     index: the current item being evaluated
     step: the number of steps it took to reach the state in [items]

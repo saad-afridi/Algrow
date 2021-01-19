@@ -3,6 +3,8 @@ from sort_functions import SortSteps, InsertionSteps, BubbleSteps, \
     SelectionSteps
 import random
 from visual_helpers import *
+from sudoku_visual import *
+
 
 def run_visualization() -> None:
     """
@@ -24,7 +26,6 @@ def selection_screen(screen: pygame.Surface) -> None:
     """
     clear_screen(screen)
     border(screen)
-    two_options(screen)
 
     # Labels
     draw_header(screen, "Table of Content")
@@ -45,6 +46,8 @@ def selection_screen(screen: pygame.Surface) -> None:
                 x, y = event.pos
                 if b1.is_cursor_on((x, y), True):
                     sort_selection(screen)
+                if b2.is_cursor_on((x, y), True):
+                    solve_sudoku_GUI(screen)
         
         if b1.is_cursor_on(pygame.mouse.get_pos()):
             b1.hover()
@@ -222,6 +225,27 @@ def sort_end(screen: pygame.Surface, data: SortSteps) -> None:
     write_text(screen, "Cycle: " + str(data.cycle), get_font(), TEXT, (50, 475))
 
     time_loop(screen, 6000)
+    selection_screen(screen)
+    
+    
+def solve_sudoku_GUI(screen: pg.Surface) -> None:
+    
+    clear_screen(screen)
+    board = SudokuBoard()
+    board.draw(screen)
+    done = False
+    while not done:
+        
+        for e in pg.event.get():
+            if e.type == pg.QUIT:
+                selection_screen(screen)
+            
+        done = board.solve(screen)
+
+        board.draw(screen)
+        pg.display.flip()
+    
+    time_loop(screen, 10000)
     selection_screen(screen)
 
 
