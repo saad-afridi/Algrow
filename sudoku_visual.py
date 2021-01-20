@@ -17,15 +17,15 @@ def get_grid() -> List[List[int]]:
     """ Retuns the Grid that the SudokuBoard
     is based off of """
     return [
-    [3, 1, 6, 5, 0, 8, 4, 0, 2],
+    [0, 1, 6, 5, 0, 8, 4, 0, 2],
     [5, 2, 0, 0, 0, 4, 0, 0, 0],
     [0, 0, 7, 6, 0, 0, 0, 3, 1],
     [0, 6, 3, 0, 1, 0, 0, 0, 0],
     [9, 0, 4, 8, 6, 3, 0, 0, 5],
-    [0, 5, 0, 0, 9, 0, 6, 0, 0],
+    [0, 5, 0, 0, 0, 0, 6, 0, 0],
     [1, 0, 0, 9, 0, 0, 2, 0, 0],
-    [0, 0, 0, 3, 5, 0, 0, 7, 4],
-    [7, 0, 5, 2, 0, 6, 0, 1, 9]
+    [6, 0, 2, 3, 0, 0, 8, 0, 4],
+    [0, 4, 5, 0, 0, 0, 0, 1, 0]
     ]
     
     
@@ -92,6 +92,14 @@ class SudokuTile:
         rect = (self.rect[0] + diff, self.rect[1] + diff,
                 self.rect[2] - thick, self.rect[3] - thick)
         pg.draw.rect(screen, color, rect, thick)
+        
+        
+    def finish(self, screen) -> None:
+        """ Draw the tile when <SudokuBoard> is 
+        complete """
+        pos = self.rect[0] + (20), self.rect[1] + 2
+        pg.draw.rect(screen, TEXT, self.rect, 1)
+        write_text(screen, str(self.val), get_font(60), TEXT, pos)
    
     
 class SudokuBoard:
@@ -233,8 +241,24 @@ class SudokuBoard:
                 self.set_tile(row, col, 0)
                 self.draw(screen)
                 
-            pg.time.delay(50)
+            pg.time.delay(25)
             pg.display.flip()
                   
         return False
-    
+
+
+    def finished(self, screen) -> None:
+        """ Draws the screen when the SudokuBoard
+        is solved """
+        clear_screen(screen)
+        for rows in self.tiles:
+            for tile in rows:
+                tile.finish(screen)
+                
+        self._fill_edges(screen)
+        pg.display.flip()
+        
+        
+if __name__ == '__main__':
+    pass
+                

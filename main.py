@@ -29,11 +29,11 @@ def selection_screen(screen: pygame.Surface) -> None:
 
     # Labels
     draw_header(screen, "Table of Content")
-    b1 = PButton(screen, (200, 230, 300, 50))
+    b1 = PButton(screen, (180, 230, 300, 50))
     b1.add_text("Sorting")
-    b2 = PButton(screen, (300, 300, 300, 50))
+    b2 = PButton(screen, (180, 300, 300, 50))
     b2.add_text("Searching")
-    
+    buttons = [b1 ,b2]
     # TODO: Recognize when clicked on "Searching" and go there
     while True:
 
@@ -49,15 +49,11 @@ def selection_screen(screen: pygame.Surface) -> None:
                 if b2.is_cursor_on((x, y), True):
                     solve_sudoku_GUI(screen)
         
-        if b1.is_cursor_on(pygame.mouse.get_pos()):
-            b1.hover()
-        else:
-            b1.draw()
-            
-        if b2.is_cursor_on(pygame.mouse.get_pos()):
-            b2.hover()
-        else:
-            b2.draw()
+        for b in buttons:
+            if b.is_cursor_on(pygame.mouse.get_pos()):
+                b.hover()
+            else:
+                b.draw()
 
         pygame.display.flip()
 
@@ -71,13 +67,17 @@ def sort_selection(screen: pygame.Surface) -> None:
 
     clear_screen(screen)
     border(screen)
-    three_options(screen)
+    draw_header(screen, "Types of Sorts")
 
     # Labels
-    write_text(screen, "Bubble Sort", get_font(), BACKGROUND, (230, 100))
-    write_text(screen, "Insertion Sort", get_font(), BACKGROUND, (205, 285))
-    write_text(screen, "Selection Sort", get_font(), BACKGROUND, (205, 475))
-
+    bubble = PButton(screen, (155, 230, 350, 50))
+    bubble.add_text("Bubble Sort")
+    insert = PButton(screen, (155, 330, 350, 50))
+    insert.add_text("Insertion Sort")
+    select = PButton(screen, (155, 430, 350, 50))
+    select.add_text("Selection Sort")
+    buttons = [bubble, insert, select]
+    
     selected = ""
     while selected == "":
         for event in pygame.event.get():
@@ -88,16 +88,19 @@ def sort_selection(screen: pygame.Surface) -> None:
             if event.type == pygame.MOUSEBUTTONUP:
                 # Check which box was clicked
                 x, y = event.pos
-                if 40 < x < 600 and 40 < y < 190:
+                if bubble.is_cursor_on((x, y), True):
                     selected = "Bubble"
-                    break
-                elif 40 < x < 600 and 225 < y < 375:
+                elif insert.is_cursor_on((x, y), True):
                     selected = "Insertion"
-                    break
-                elif 40 < x < 600 and 410 < y < 560:
+                elif select.is_cursor_on((x, y), True):
                     selected = "Selection"
-                    break
-
+        
+        for b in buttons:
+            if b.is_cursor_on(pygame.mouse.get_pos()):
+                b.hover()
+            else:
+                b.draw()
+            
         pygame.display.flip()
 
     if selected == "Bubble":
@@ -229,6 +232,7 @@ def sort_end(screen: pygame.Surface, data: SortSteps) -> None:
     
     
 def solve_sudoku_GUI(screen: pg.Surface) -> None:
+    """ Solve sud"""
     
     clear_screen(screen)
     board = SudokuBoard()
@@ -245,7 +249,8 @@ def solve_sudoku_GUI(screen: pg.Surface) -> None:
         board.draw(screen)
         pg.display.flip()
     
-    time_loop(screen, 10000)
+    board.finished(screen)
+    time_loop(screen, 8000)
     selection_screen(screen)
 
 

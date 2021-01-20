@@ -24,13 +24,19 @@ TEXT = (180, 180, 180) # Dark
 
 # Anna orig
 # BACKGROUND = (105, 0, 191)
-BARS = (165, 92, 255)
+BARS = (148, 148, 148)
 # TEXT = (231, 177, 250)
 
 
+""" 
+BACKGROUND = (105, 0, 191)
+BARS = (165, 92, 255)
+TEXT = (231, 177, 250)
+"""
+
 # Other Colors
 HIGHLIGHT1 = (125, 255, 186) # Light Green
-HIGHLIGHT2 = (52, 219, 235) # Dark Neon Blue
+HIGHLIGHT2 = (145, 188, 255) # Dark Neon Blue
 LIGHT_BG = (BACKGROUND[0] + 30, BACKGROUND[1] + 30, BACKGROUND[2] + 30)
 
 
@@ -86,7 +92,7 @@ class PButton():
         """Add text to current button"""
         
         self.text = text
-        pos = (self.coord[0] + (self.coord[2] // 2) - len(text) * 9
+        pos = (self.coord[0] + (self.coord[2] // 2) - len(text) * 8
                , self.coord[1] + (self.coord[3] // 2) - (FONT_HEIGHT// 2))
         write_text(self.screen, text, get_font(), BACKGROUND, pos)
 
@@ -130,21 +136,6 @@ def title_screen(screen: pg.Surface) -> None:
     pg.draw.rect(screen, TEXT, (50, 310, 540, 10))
 
     time_loop(screen, 3000)
-
-
-def two_options(screen: pg.Surface) -> None:
-    """Draws two rectangles plus a title at the top"""
-    
-    pg.draw.rect(screen, TEXT, (40, 225, 560, 150))
-    pg.draw.rect(screen, TEXT, (40, 410, 560, 150))
-
-
-def three_options(screen: pg.Surface) -> None:
-    """Draws three rectangles evenly divided"""
-    
-    pg.draw.rect(screen, TEXT, (40, 40, 560, 150))
-    pg.draw.rect(screen, TEXT, (40, 225, 560, 150))
-    pg.draw.rect(screen, TEXT, (40, 410, 560, 150))
 
 
 def write_text(screen: pg.Surface, text: str, font: pg.font, color: Tuple,
