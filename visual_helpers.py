@@ -11,28 +11,15 @@ from typing import Dict, List, Optional, Tuple
 # Screen Dimensions
 HEIGHT, WIDTH = 600, 640
 FONT_HEIGHT = 40
-VISUALIZE_HEIGHT = HEIGHT - FONT_HEIGHT - 50 # 600 - 40 - 50 = 510
+VISUALIZE_HEIGHT = HEIGHT - FONT_HEIGHT - 50
 
 # Text Styling and Colors
 FONT_FAMILY = "inkfree"
 
 # Custom colors
 BACKGROUND = (40, 40, 40) # Light
-# BARS = (128, 121, 159) # Light bars
 TEXT = (180, 180, 180) # Dark
-
-
-# Anna orig
-# BACKGROUND = (105, 0, 191)
 BARS = (148, 148, 148)
-# TEXT = (231, 177, 250)
-
-
-""" 
-BACKGROUND = (105, 0, 191)
-BARS = (165, 92, 255)
-TEXT = (231, 177, 250)
-"""
 
 # Other Colors
 HIGHLIGHT1 = (125, 255, 186) # Light Green
@@ -41,10 +28,20 @@ LIGHT_BG = (BACKGROUND[0] + 30, BACKGROUND[1] + 30, BACKGROUND[2] + 30)
 
 
 class PButton():
+    """ 
+    A PButton class that you can [hover] over and [click]
+    for effects
+    
+    ==== Public Attributes ====
+    coord: The coordinates of this button on the window
+    color: The color of this button
+    test: Optional Text on the button
+    """
     
     coord: Tuple[int]
     color: Tuple[int]
     text: Optional[str]
+    
     
     def __init__(self, screen: pg.Surface, coord: Tuple[int], 
                  color = TEXT) -> None:
@@ -92,7 +89,7 @@ class PButton():
         """Add text to current button"""
         
         self.text = text
-        pos = (self.coord[0] + (self.coord[2] // 2) - len(text) * 8
+        pos = (self.coord[0] + (self.coord[2] // 2) - len(text) * 6.5
                , self.coord[1] + (self.coord[3] // 2) - (FONT_HEIGHT// 2))
         write_text(self.screen, text, get_font(), BACKGROUND, pos)
 
@@ -108,7 +105,7 @@ def draw_header(screen: pg.Surface, text: str, offset=48, thick=5) -> None:
 def get_font(size=FONT_HEIGHT, bold=False) -> pg.font:
     """Return font of <size>"""
     
-    font = pg.font.Font("fonts\Inter-VariableFont_slnt,wght.ttf",
+    font = pg.font.Font("fonts\Lobster\Lobster-Regular.ttf",
                             size - 8)
     if bold:
         font.set_bold(True)

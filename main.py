@@ -80,8 +80,9 @@ def sort_selection(screen: pygame.Surface) -> None:
     """ The screen that lets you pick what sorting method to
     watch"""
 
-    # The list to sort
-    item = [random.randint(50, VISUALIZE_HEIGHT) for i in range(32)]
+    # The list to sort    
+    item = [i for i in range(35, VISUALIZE_HEIGHT, 15)]
+    random.shuffle(item)
 
     clear_screen(screen)
     border(screen)
@@ -201,13 +202,6 @@ def _render_text(screen: pygame.Surface, data: SortSteps) -> None:
     small_font = get_font(20)
     draw_header(screen, data.get_title() + " Sort")
 
-    # Steps, Cycle
-    write_text(screen, "Step(s):" + str(data.step), small_font, TEXT,
-               (48, HEIGHT - 25))
-    write_text(screen, "Cycle(s): " + str(data.cycle), small_font, TEXT,
-               (WIDTH - 120, HEIGHT - 25))
-    
-
 def _render_data(screen: pygame.Surface, data: SortSteps) -> None:
     """
     Draw all the elements in data
@@ -287,8 +281,8 @@ def sort_end(screen: pygame.Surface, data: SortSteps) -> None:
 
     # Labels
     draw_header(screen, data.get_title() + " Sort" + " Statistics")
-    write_text(screen, "Step(s): " + str(data.step), get_font(), TEXT, (50, 285))
-    write_text(screen, "Cycle: " + str(data.cycle), get_font(), TEXT, (50, 475))
+    write_text(screen, "Step(s): " + str(data.step), get_font(50), TEXT, (50, 235))
+    write_text(screen, "Cycle: " + str(data.cycle), get_font(50), TEXT, (50, 435))
 
     time_loop(screen, 6000)
     selection_screen(screen)
