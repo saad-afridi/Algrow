@@ -1,9 +1,11 @@
 import pygame
+
 from sort_functions import SortSteps, InsertionSteps, BubbleSteps, \
     SelectionSteps
 import random
 from visual_helpers import *
 from sudoku_visual import *
+from astar_visual import *
 
 
 def run_visualization() -> None:
@@ -34,6 +36,7 @@ def selection_screen(screen: pygame.Surface) -> None:
     b2 = PButton(screen, (180, 300, 300, 50))
     b2.add_text("Searching")
     buttons = [b1 ,b2]
+    
     # TODO: Recognize when clicked on "Searching" and go there
     while True:
 
@@ -47,7 +50,7 @@ def selection_screen(screen: pygame.Surface) -> None:
                 if b1.is_cursor_on((x, y), True):
                     sort_selection(screen)
                 if b2.is_cursor_on((x, y), True):
-                    solve_sudoku_GUI(screen)
+                    search_selection(screen)
         
         for b in buttons:
             if b.is_cursor_on(pygame.mouse.get_pos()):
@@ -67,7 +70,7 @@ def sort_selection(screen: pygame.Surface) -> None:
 
     clear_screen(screen)
     border(screen)
-    draw_header(screen, "Types of Sorts")
+    draw_header(screen, "Types of Sorting Algorithms")
 
     # Labels
     bubble = PButton(screen, (155, 230, 350, 50))
@@ -114,6 +117,51 @@ def sort_selection(screen: pygame.Surface) -> None:
     sort_event_loop(screen, data)
 
 
+def search_selection(screen: pygame.Surface) -> None:
+    """ The screen that lets you pick what searching algorithm to
+    watch"""
+
+    clear_screen(screen)
+    border(screen)
+    draw_header(screen, "Types of Searching Algorithms")
+
+    # Labels
+    backtrack = PButton(screen, (155, 230, 350, 50))
+    backtrack.add_text("BackTracking")
+    astar = PButton(screen, (155, 330, 350, 50))
+    astar.add_text("A*")
+    buttons = [backtrack, astar]
+    
+    selected = ""
+    while selected == "":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                # Check which box was clicked
+                x, y = event.pos
+                if backtrack.is_cursor_on((x, y), True):
+                    selected = "Backtrack"
+                elif astar.is_cursor_on((x, y), True):
+                    selected = "A*"
+        
+        for b in buttons:
+            if b.is_cursor_on(pygame.mouse.get_pos()):
+                b.hover()
+            else:
+                b.draw()
+            
+        pygame.display.flip()
+
+    if selected == "Backtrack":
+        solve_sudoku_GUI(screen)
+    elif selected == "A*":
+        render_astar_vis(screen)
+    
+    
+# ============================= SORTING VISUALISATION METHODS ====================
 def render_sort(screen: pygame.Surface, data: SortSteps) -> None:
     """
     Renders the elements in a list and a text display to the
@@ -230,9 +278,11 @@ def sort_end(screen: pygame.Surface, data: SortSteps) -> None:
     time_loop(screen, 6000)
     selection_screen(screen)
     
-    
+
+# ========================== BACKTRACKING AND ASTAR ================================
 def solve_sudoku_GUI(screen: pg.Surface) -> None:
-    """ Solve sud"""
+    """ Solve sudoku using backtracking algorithm and display
+    it on GUI """
     
     clear_screen(screen)
     board = SudokuBoard()
@@ -254,5 +304,63 @@ def solve_sudoku_GUI(screen: pg.Surface) -> None:
     selection_screen(screen)
 
 
+def render_astar_vis(screen: pygame.Surface) -> None:
+    """ Render the astar simulation program """
+ 
+    board = Maze()
+    board.draw(screen)
+    
+    # Mode 0 is for selecting start, end pts
+    # Mode 1 is for creating obstacles
+    # Mode 2 is for clearing obstacles
+    mode, ans = 0, []
+    while ans == []:
+        
+        for e in pg.event.get():
+            if e.type == pg.QUIT:
+                pg.quit()
+                exit()
+            
+            # If a key is pressed
+            if e.type == pg.KEYUP:
+                
+                # Left Shift for adding obstacles
+                if e.key == pg.K_LSHIFT:
+                    if mode != 1:
+                        mode = 1
+                    else:
+                        mode = 0
+                
+                # Capslock for clearing obstacles
+                if e.key == pg.K_CAPSLOCK:
+                    if mode != 2:
+                        mode = 2
+                    else:
+                        mode = 0
+                
+                # Space to start simulation
+                if e.key == pg.K_SPACE:
+                    ans = board.solve_astar(screen)
+            
+            # If clicked with mouse
+            if e.type == pg.MOUSEBUTTONDOWN and mode == 0:
+                x, y = pg.mouse.get_pos()
+                if e.button == 1:
+                    board.start_end(x, y, mode)
+                
+                elif e.button == 3:
+                    board.start_end(x, y, mode, True)
+                    
+                    
+        x, y = pg.mouse.get_pos()
+        board.set_tile_state(x, y, mode)
+        
+        if not ans:
+            board.draw(screen)
+            pg.display.flip()
+    
+    selection_screen(screen)
+    
+    
 if __name__ == '__main__':
     run_visualization()

@@ -20,7 +20,7 @@ def get_grid() -> List[List[int]]:
     [0, 1, 6, 5, 0, 8, 4, 0, 2],
     [5, 2, 0, 0, 0, 4, 0, 0, 0],
     [0, 0, 7, 6, 0, 0, 0, 3, 1],
-    [0, 6, 3, 0, 1, 0, 0, 0, 0],
+    [0, 6, 3, 0, 1, 0, 0, 8, 0],
     [9, 0, 4, 8, 6, 3, 0, 0, 5],
     [0, 5, 0, 0, 0, 0, 6, 0, 0],
     [1, 0, 0, 9, 0, 0, 2, 0, 0],
@@ -80,17 +80,19 @@ class SudokuTile:
         pg.draw.rect(screen, TEXT, self.rect, 1)
         
         pos = self.rect[0] + (20), self.rect[1] + 2
-        if self.val != 0:
+        if self.val != 0 and self.known:
             write_text(screen, str(self.val), get_font(60), TEXT, pos)
+        elif self.val != 0 and not self.known:
+            write_text(screen, str(self.val), get_font(60), HIGHLIGHT1, pos)
         elif self.guess != 0 and self.selected:
-            write_text(screen, str(self.guess), get_font(60), TEXT, pos)        
+            write_text(screen, str(self.guess), get_font(60), HIGHLIGHT2, pos)        
             
     
-    def _draw_border(self, screen: pg.Surface, color: Tuple[int], thick=4) -> None:
+    def _draw_border(self, screen: pg.Surface, color: Tuple[int], thick=2) -> None:
         """ Draws a border around the tile on <screen> """
-        diff = thick // 2
-        rect = (self.rect[0] + diff, self.rect[1] + diff,
-                self.rect[2] - thick, self.rect[3] - thick)
+        diff = thick // 2 + (2)
+        rect = (self.rect[0] + diff + 1, self.rect[1] + diff,
+                self.rect[2] - thick - 6, self.rect[3] - thick - 6)
         pg.draw.rect(screen, color, rect, thick)
         
         
@@ -117,7 +119,7 @@ class SudokuBoard:
     def __init__(self):
         """ Initalizes a SudokuBoard object """     
         self.tiles = []
-        grid = get_grid()
+        # grid = get_grid()
         delta_x = (WIDTH - 10) // 9
         delta_y = (HEIGHT - 6.5) // 9
         
@@ -133,12 +135,12 @@ class SudokuBoard:
     def draw(self, screen) -> None:
         """ Draws the SudokuBoard on <screen> """
         clear_screen(screen)
-        
+        self._fill_edges(screen)
         for row in self.tiles:
             for tile in row:
                 tile.draw(screen)
                 
-        self._fill_edges(screen)
+        
         pg.display.flip()
                 
                 
@@ -149,6 +151,13 @@ class SudokuBoard:
         pg.draw.rect(screen, TEXT, (0, 0, 5, HEIGHT))
         pg.draw.rect(screen, TEXT, (WIDTH - 5, 0, 5, HEIGHT))
         pg.draw.rect(screen, TEXT, (0, HEIGHT - 8, WIDTH, 8))
+        
+        pg.draw.rect(screen, TEXT, (212, 0, 6, HEIGHT))
+        pg.draw.rect(screen, TEXT, (422, 0, 6, HEIGHT))
+        
+        pg.draw.rect(screen, TEXT, (0, 199, WIDTH, 6))
+        pg.draw.rect(screen, TEXT, (0, 394, WIDTH, 6))
+        
                 
                 
     def get_tile(self, row: int, col: int) -> SudokuTile:
@@ -241,7 +250,7 @@ class SudokuBoard:
                 self.set_tile(row, col, 0)
                 self.draw(screen)
                 
-            pg.time.delay(25)
+            pg.time.delay(50)
             pg.display.flip()
                   
         return False
