@@ -312,14 +312,4 @@ class Maze:
         time_loop(screen, 10000)
         
         return path
-            
-                        
-                        
-    
-                    
-        
-        
-        
-if __name__ == '__main__':
-    run_astar_vis()
-        
+ 
