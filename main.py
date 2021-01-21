@@ -1,11 +1,26 @@
-import pygame
+""" 
+======================
+        Algrow
+======================
 
-from sort_functions import SortSteps, InsertionSteps, BubbleSteps, \
-    SelectionSteps
+The main file to run the program. Contains all the pygame selection
+windows. To run the program, just run this 
+file. 
+
+- As of January 21, 2021
+    - contains Bubble Sort, Insertion Sort, Selection Sort, 
+    Sudoku Backtracking and A* Pathfinder visualisers.
+"""
+
+import pygame
 import random
+
 from visual_helpers import *
-from sudoku_visual import *
-from astar_visual import *
+
+from Searching.sudoku_visual import *
+from Searching.astar_visual import *
+
+from Sorting.sort_functions import *
 
 
 def run_visualization() -> None:
