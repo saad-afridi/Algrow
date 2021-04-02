@@ -17,6 +17,6 @@ As of January 21, 2021
 
 ![](AlgrowAssets/InsertionSort.gif)
 
-![](AlgrowAssets/SudokuBackTrack.gif)
+![](AlgrowAssets/SudokuBacktrack.gif)
 
 ![](AlgrowAssets/AStar.gif)
