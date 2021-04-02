@@ -1,6 +1,6 @@
 # Algrow
 
-A growing project that will contains many fun simulations of all different types of algorithms (for others and myself) for fun/education purposes. Utilizes a classes black and white education-friendly GUI stylized with custom fonts.
+A growing project that will contains many fun simulations of all different types of algorithms for fun/education purposes. Utilizes a classes black and white education-friendly GUI stylized with custom fonts.
 
 To use the program, clone the repo and run main.py.
 
