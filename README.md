@@ -7,7 +7,7 @@ A growing project that contains simulations/visualization of many different type
 ![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/GUI-Pygame-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/Editor-VSCode-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/OS-Windows-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a)
 
 
-### Demo
+## Demo
 
 ![](AlgrowAssets/InsertionSort.gif)
 
@@ -16,7 +16,7 @@ A growing project that contains simulations/visualization of many different type
 ![](AlgrowAssets/AStar.gif)
 
 
-### How to Use 
+## How to Use 
 
 From your command line, clone and run Algrow:
 
@@ -32,7 +32,7 @@ $ python3 main.py
 ```
 
 
-### Changelog
+## Changelog
 
 As of January 21, 2021
 
