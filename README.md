@@ -16,7 +16,7 @@ A growing project that contains simulations/visualization of many different type
 ![](AlgrowAssets/AStar.gif)
 
 
-## How to Use 
+## How To Use 
 
 From your command line, clone and run Algrow:
 
