@@ -9,7 +9,7 @@ A growing project that contains simulations/visualization of many different type
 
 ## Demo
 
-<img src="AlgrowAssets/InsertionSort.gif" width="400" height="400"/> <img src="AlgrowAssets/SudokuBacktrack.gif" width="400" height="400"/> <img src="AlgrowAssets/AStar.gif" width="400" height="400"/>
+<img src="AlgrowAssets/InsertionSort.gif" width="350" height="350"/> <img src="AlgrowAssets/SudokuBacktrack.gif" width="350" height="350"/> <img src="AlgrowAssets/AStar.gif" width="350" height="350"/>
 
 ![](AlgrowAssets/SudokuBacktrack.gif)
 
