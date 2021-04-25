@@ -9,7 +9,7 @@ A growing project that contains simulations/visualization of many different type
 
 ## Demo
 
-![](AlgrowAssets/InsertionSort.gif)
+![](AlgrowAssets/InsertionSort.gif = 250x250)
 
 ![](AlgrowAssets/SudokuBacktrack.gif)
 
