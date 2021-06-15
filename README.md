@@ -4,7 +4,7 @@ A growing project that contains simulations/visualization of many different type
 
 ### Technology and Tools
 
-![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/GUI-Pygame-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a) ![](https://img.shields.io/badge/Editor-VSCode-informational?style=flat&logo=logo_name&logoColor=white&color=19AF6B) ![](https://img.shields.io/badge/OS-Windows-informational?style=flat&logo=logo_name&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=logo_name&logoColor=white&color=19AF6B) ![](https://img.shields.io/badge/GUI-Pygame-informational?style=flat&logo=logo_name&logoColor=white&color=19AF6B) ![](https://img.shields.io/badge/Editor-VSCode-informational?style=flat&logo=logo_name&logoColor=white&color=19AF6B) ![](https://img.shields.io/badge/OS-Windows-informational?style=flat&logo=logo_name&logoColor=white&color=19AF6B)
 
 
 ## Demo
